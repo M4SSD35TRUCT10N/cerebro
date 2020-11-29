@@ -327,7 +327,7 @@ fn main() {
             Some(Message::None) => println!("None"),
             Some(Message::Open) => println!("Open"),
             Some(Message::Paste) => println!("Paste"),
-            Some(Message::Quit) => app.quit(),
+            Some(Message::Quit) => app.quit(), // TODO: emit autosave message
             Some(Message::RenameCerebro) => println!("RenameCerebro"),
             Some(Message::Save) => println!("Save"),
             Some(Message::SaveAs) => println!("SaveAs"),
