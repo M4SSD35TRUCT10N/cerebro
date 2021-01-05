@@ -4,10 +4,13 @@
 //      3. Fill slowly with function.
 //      4. Release early, release often.
 
-#![windows_subsystem = "windows"]
+// This is needed to prevent a command shell to open on windows.
+// Uncomment when releasing! TODO: Automate this!
+// #![windows_subsystem = "windows"]
 
 use fltk::{app::*, dialog::*, menu::*, window::*};
 
+// Message enum for the menu bar and other functionalities.
 // Adding something here, needs to be added in the match tree of
 // app.wait() too!
 #[derive(Copy, Clone)]
@@ -60,6 +63,10 @@ pub enum Message {
 }
 
 fn main() {
+    // I like to have some initial values as constants since they'll never
+    // change over the course of the application running. They also help to
+    // reduce memory footprint of the application due to compiler
+    // optimizations.
     const INITIAL_WIDTH: i32 = 864;
     const INITIAL_HEIGHT: i32 = 360;
     const INITIAL_MENU_HEIGHT: i32 = 23;
@@ -79,13 +86,17 @@ fn main() {
 
     let (s, r) = channel::<Message>();
 
+    // Create the main window.
     let mut w = Window::default()
         .with_size(INITIAL_WIDTH, INITIAL_HEIGHT)
         .center_screen()
         .with_label("cerebro - a note taking and knowledge management tool");
 
+    // Be macOS friendly from the beginning: start as system menu bar - no effect on windows
     let mut menu = SysMenuBar::new(0, 0, INITIAL_WIDTH, INITIAL_MENU_HEIGHT, "cerebro menu");
 
+    // Populating menu items
+    // File menu entries
     menu.add_emit(
         "&File/New Tab\t",
         Shortcut::Ctrl | 't',
@@ -222,6 +233,7 @@ fn main() {
         Message::Quit,
     );
 
+    // Edit menu entries
     menu.add_emit(
         "&Edit/Undo\t",
         Shortcut::Ctrl | 'z',
@@ -342,6 +354,7 @@ fn main() {
         Message::CopyScreenShotToClipboard,
     );
 
+    // Help menu entries
     menu.add_emit(
         "&Help/About\t",
         Shortcut::None,
