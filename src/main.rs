@@ -18,8 +18,11 @@ pub enum Message {
     About,
     AddUTF8Signature,
     AddSelection,
+    AutomaticSynchronization,
     Backup,
     CancelSelection,
+    Cerebris,
+    CerebroPermissions,
     Changed,
     CheckForUpdate,
     Copy,
@@ -30,17 +33,24 @@ pub enum Message {
     CloseWindow,
     Cut,
     DataIntegrityScan,
+    DisplayAccountInformations,
     DoubleThought,
+    DuplicateTab,
     Export,
     HideAllParents,
     Import,
+    JoinAll,
     ManageEndPoints,
+    MoveTabToNewWindow,
     NewCerebro,
     NewTab,
     NewWindow,
+    NextCerebro,
     None,
     Open,
+    OpenThoughtInWebClient,
     Paste,
+    PreviousCerebro,
     QuickstartCerebro,
     Quit,
     RenameCerebro,
@@ -53,6 +63,7 @@ pub enum Message {
     ShowAllParents,
     ShowCommonChildren,
     Statistics,
+    SynchronizeCerebro,
     TippsAndTricks,
     Tutorials,
     Undo,
@@ -354,6 +365,104 @@ fn main() {
         Message::CopyScreenShotToClipboard,
     );
 
+    // Online menu entries
+    menu.add_emit(
+        "&Online/Synchronize cerebro",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::SynchronizeCerebro,
+    );
+
+    menu.add_emit(
+        "&Online/Automatic synchronization",
+        Shortcut::None,
+        MenuFlag::MenuDivider,
+        s,
+        Message::AutomaticSynchronization,
+    );
+
+    menu.add_emit(
+        "&Online/Open thought in web client",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::OpenThoughtInWebClient,
+    );
+
+    menu.add_emit(
+        "&Online/Copy URL of web thought",
+        Shortcut::None,
+        MenuFlag::MenuDivider,
+        s,
+        Message::CopyURLOfWebThought,
+    );
+
+    menu.add_emit(
+        "&Online/Cerebro permissions",
+        Shortcut::None,
+        MenuFlag::MenuDivider,
+        s,
+        Message::CerebroPermissions,
+    );
+
+    menu.add_emit(
+        "&Online/Display account informations",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::DisplayAccountInformations,
+    );
+
+    // Window menu entries
+    menu.add_emit(
+        "&Window/Previous cerebro",
+        Shortcut::Ctrl | Shortcut::Shift | Key::Tab,
+        MenuFlag::Normal,
+        s,
+        Message::PreviousCerebro,
+    );
+
+    menu.add_emit(
+        "&Window/Next cerebro",
+        Shortcut::Ctrl | Key::Tab,
+        MenuFlag::Normal,
+        s,
+        Message::NextCerebro,
+    );
+
+    menu.add_emit(
+        "&Window/Move current tab to new window",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::MoveTabToNewWindow,
+    );
+
+    menu.add_emit(
+        "&Window/Join all",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::JoinAll,
+    );
+
+    menu.add_emit(
+        "&Window/Duplicate tab",
+        Shortcut::None,
+        MenuFlag::MenuDivider,
+        s,
+        Message::DuplicateTab,
+    );
+
+    menu.add_emit(
+        "&Window/Cerebris",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::Cerebris,
+    );
+
     // Help menu entries
     menu.add_emit(
         "&Help/About\t",
@@ -419,17 +528,30 @@ fn main() {
         Message::OpenProtocolDirectory,
     );
 
+    // menu entry stub - for copy only!
+    /* menu.add_emit(
+        "",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::,
+    ); */
+
     w.make_resizable(true);
     w.end();
     w.show();
+
     while app.wait() {
         match r.recv() {
             // TODO: Fill all of them with life!
             Some(Message::About) => println!("About"),
             Some(Message::AddSelection) => println!("AddSelection"),
             Some(Message::AddUTF8Signature) => println!("AddUTF8Signature"),
+            Some(Message::AutomaticSynchronization) => println!("AutomaticSynchronization"),
             Some(Message::Backup) => println!("Backup"),
             Some(Message::CancelSelection) => println!("CancelSelection"),
+            Some(Message::Cerebris) => println!("Cerebris"),
+            Some(Message::CerebroPermissions) => println!("CerebroPermissions"),
             Some(Message::Changed) => println!("Changed"),
             Some(Message::CheckForUpdate) => println!("CheckForUpdate"),
             Some(Message::Copy) => println!("Copy"),
@@ -440,19 +562,26 @@ fn main() {
             Some(Message::CloseWindow) => println!("CloseWindow"),
             Some(Message::Cut) => println!("Cut"),
             Some(Message::DataIntegrityScan) => println!("DataIntegrityScan"),
+            Some(Message::DisplayAccountInformations) => println!("DisplayAccountInformations"),
             Some(Message::DoubleThought) => println!("DoubleThought"),
+            Some(Message::DuplicateTab) => println!("DuplicateTab"),
             Some(Message::Export) => println!("Export"),
             Some(Message::HideAllParents) => println!("HideAllParents"),
             Some(Message::Import) => println!("Import"),
+            Some(Message::JoinAll) => println!("JoinAll"),
             Some(Message::ManageEndPoints) => println!("ManageEndPoints"),
+            Some(Message::MoveTabToNewWindow) => println!("MoveTabToNewWindow"),
             Some(Message::NewCerebro) => println!("NewCerebro"),
             Some(Message::NewTab) => println!("NewTab"),
             Some(Message::NewWindow) => println!("NewWindow"),
+            Some(Message::NextCerebro) => println!("NextCerebro"),
             Some(Message::None) => println!("None"),
             Some(Message::OfflineActivation) => println!("OfflineActivation"),
             Some(Message::Open) => println!("Open"),
+            Some(Message::OpenThoughtInWebClient) => println!("OpenThoughtInWebClient"),
             Some(Message::OpenProtocolDirectory) => println!("OpenProtocolDirectory"),
             Some(Message::Paste) => println!("Paste"),
+            Some(Message::PreviousCerebro) => println!("PreviousCerebro"),
             Some(Message::Quit) => app.quit(), // TODO: emit autosave message
             Some(Message::RenameCerebro) => println!("RenameCerebro"),
             Some(Message::Save) => println!("Save"),
@@ -464,6 +593,7 @@ fn main() {
             Some(Message::ShowAllParents) => println!("ShowAllParents"),
             Some(Message::ShowCommonChildren) => println!("ShowCommonChildren"),
             Some(Message::Statistics) => println!("Statistics"),
+            Some(Message::SynchronizeCerebro) => println!("SynchronizeCerebro"),
             Some(Message::TippsAndTricks) => println!("TippsAndTricks"),
             Some(Message::Tutorials) => println!("Tutorials"),
             Some(Message::Undo) => println!("Undo"),
