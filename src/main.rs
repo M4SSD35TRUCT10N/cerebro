@@ -14,10 +14,13 @@ use fltk::{app::*, dialog::*, menu::*, window::*};
 pub enum Message {
     About,
     AddUTF8Signature,
+    AddSelection,
     Backup,
+    CancelSelection,
     Changed,
     CheckForUpdate,
     Copy,
+    CopyScreenShotToClipboard,
     CopyURLOfLocalThought,
     CopyURLOfWebThought,
     CloseTab,
@@ -35,15 +38,24 @@ pub enum Message {
     None,
     Open,
     Paste,
+    QuickstartCerebro,
     Quit,
     RenameCerebro,
     Save,
     SaveAs,
     SearchReplace,
     SelectAll,
+    SelectPathInBetween,
+    SelectRelatedThoughts,
     ShowAllParents,
+    ShowCommonChildren,
     Statistics,
+    TippsAndTricks,
+    Tutorials,
     Undo,
+    UpgradeToPro,
+    OfflineActivation,
+    OpenProtocolDirectory,
     Redo,
 }
 
@@ -283,6 +295,54 @@ fn main() {
     );
 
     menu.add_emit(
+        "&Edit/Add Selection",
+        Shortcut::None,
+        MenuFlag::MenuDivider,
+        s,
+        Message::AddSelection,
+    );
+
+    menu.add_emit(
+        "&Edit/Select related thoughts",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::SelectRelatedThoughts,
+    );
+
+    menu.add_emit(
+        "&Edit/Cancel Selection",
+        Shortcut::None,
+        MenuFlag::MenuDivider,
+        s,
+        Message::CancelSelection,
+    );
+
+    menu.add_emit(
+        "&Edit/Show common children",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::ShowCommonChildren,
+    );
+
+    menu.add_emit(
+        "&Edit/Select path in between",
+        Shortcut::None,
+        MenuFlag::MenuDivider,
+        s,
+        Message::SelectPathInBetween,
+    );
+
+    menu.add_emit(
+        "&Edit/Copy screen shot to clipboard",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::CopyScreenShotToClipboard,
+    );
+
+    menu.add_emit(
         "&Help/About\t",
         Shortcut::None,
         MenuFlag::Normal,
@@ -298,6 +358,54 @@ fn main() {
         Message::CheckForUpdate,
     );
 
+    menu.add_emit(
+        "&Help/Upgrade to cerebro Professional",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::UpgradeToPro,
+    );
+
+    menu.add_emit(
+        "&Help/Offline Activation",
+        Shortcut::None,
+        MenuFlag::MenuDivider,
+        s,
+        Message::OfflineActivation,
+    );
+
+    menu.add_emit(
+        "&Help/Tutorials",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::Tutorials,
+    );
+
+    menu.add_emit(
+        "&Help/Tipps and Tricks",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::TippsAndTricks,
+    );
+
+    menu.add_emit(
+        "&Help/Generate an examplary cerebro",
+        Shortcut::None,
+        MenuFlag::MenuDivider,
+        s,
+        Message::QuickstartCerebro,
+    );
+
+    menu.add_emit(
+        "&Help/Open directory of protocols",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::OpenProtocolDirectory,
+    );
+
     w.make_resizable(true);
     w.end();
     w.show();
@@ -305,11 +413,14 @@ fn main() {
         match r.recv() {
             // TODO: Fill all of them with life!
             Some(Message::About) => println!("About"),
+            Some(Message::AddSelection) => println!("AddSelection"),
             Some(Message::AddUTF8Signature) => println!("AddUTF8Signature"),
             Some(Message::Backup) => println!("Backup"),
+            Some(Message::CancelSelection) => println!("CancelSelection"),
             Some(Message::Changed) => println!("Changed"),
             Some(Message::CheckForUpdate) => println!("CheckForUpdate"),
             Some(Message::Copy) => println!("Copy"),
+            Some(Message::CopyScreenShotToClipboard) => println!("CopyScreenShotToClipboard"),
             Some(Message::CopyURLOfLocalThought) => println!("CopyURLOfLocalThought"),
             Some(Message::CopyURLOfWebThought) => println!("CopyURLOfWebThought"),
             Some(Message::CloseTab) => println!("CloseTab"),
@@ -325,7 +436,9 @@ fn main() {
             Some(Message::NewTab) => println!("NewTab"),
             Some(Message::NewWindow) => println!("NewWindow"),
             Some(Message::None) => println!("None"),
+            Some(Message::OfflineActivation) => println!("OfflineActivation"),
             Some(Message::Open) => println!("Open"),
+            Some(Message::OpenProtocolDirectory) => println!("OpenProtocolDirectory"),
             Some(Message::Paste) => println!("Paste"),
             Some(Message::Quit) => app.quit(), // TODO: emit autosave message
             Some(Message::RenameCerebro) => println!("RenameCerebro"),
@@ -333,9 +446,16 @@ fn main() {
             Some(Message::SaveAs) => println!("SaveAs"),
             Some(Message::SearchReplace) => println!("SearchReplace"),
             Some(Message::SelectAll) => println!("SelectAll"),
+            Some(Message::SelectPathInBetween) => println!("SelectPathInBetween"),
+            Some(Message::SelectRelatedThoughts) => println!("SelectRelatedThoughts"),
             Some(Message::ShowAllParents) => println!("ShowAllParents"),
+            Some(Message::ShowCommonChildren) => println!("ShowCommonChildren"),
             Some(Message::Statistics) => println!("Statistics"),
+            Some(Message::TippsAndTricks) => println!("TippsAndTricks"),
+            Some(Message::Tutorials) => println!("Tutorials"),
             Some(Message::Undo) => println!("Undo"),
+            Some(Message::UpgradeToPro) => println!("UpgradeToPro"),
+            Some(Message::QuickstartCerebro) => println!("QuickstartCerebro"),
             Some(Message::Redo) => println!("Redo"),
             None => (),
         }
