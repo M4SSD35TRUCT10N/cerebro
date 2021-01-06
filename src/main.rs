@@ -16,9 +16,12 @@ pub enum Message {
     Backup,
     CancelSelection,
     Cerebris,
+    CerebroDefaults,
     CerebroPermissions,
+    CerebroTheme,
     Changed,
     CheckForUpdate,
+    CheckSpellingWhileTyping,
     Copy,
     CopyScreenShotToClipboard,
     CopyURLOfLocalThought,
@@ -27,23 +30,43 @@ pub enum Message {
     CloseWindow,
     Cut,
     DataIntegrityScan,
+    DefaultView,
     DisplayAccountInformations,
+    DisplayReport,
+    DisplayTimeline,
     DoubleThought,
     DuplicateTab,
+    ExpandAllThoughts,
     Export,
+    FoldAllThoughts,
     HideAllParents,
+    HidePrivateThoughts,
     Import,
     JoinAll,
     ManageEndPoints,
+    MindmapView,
     MoveTabToNewWindow,
     NewCerebro,
     NewTab,
     NewWindow,
     NextCerebro,
     None,
+    OfflineActivation,
     Open,
+    OpenCerebroArchive,
+    OpenProtocolDirectory,
     OpenThoughtInWebClient,
+    OrderThoughtsByDateOfCreation,
+    OrderThoughtsByDateOfCreationOldestFirst,
+    OrderThoughtsByDateOfModification,
+    OrderThoughtsByDateOfModificationOldestFirst,
+    OrderThoughtsByDateOfVisit,
+    OrderThoughtsByDateOfVisitOldestFirst,
+    OrderThoughtsByName,
+    OrderThoughtsByType,
+    OutlineView,
     Paste,
+    PresentationMode,
     PreviousCerebro,
     QuickstartCerebro,
     Quit,
@@ -56,15 +79,18 @@ pub enum Message {
     SelectRelatedThoughts,
     ShowAllParents,
     ShowCommonChildren,
+    ShowDeceasedThoughts,
     Statistics,
     SynchronizeCerebro,
     TippsAndTricks,
     Tutorials,
     Undo,
     UpgradeToPro,
-    OfflineActivation,
-    OpenProtocolDirectory,
     Redo,
+    Wander,
+    WebSearch,
+    ZoomIntoCerebro,
+    ZoomOutOfCerebro,
 }
 
 fn main() {
@@ -103,7 +129,7 @@ fn main() {
     // Populating menu items
     // File menu entries
     menu.add_emit(
-        "&File/New Tab\t",
+        "&File/New Tab",
         Shortcut::Ctrl | 't',
         MenuFlag::Normal,
         s,
@@ -111,7 +137,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&File/New Window\t",
+        "&File/New Window",
         Shortcut::Ctrl | Shortcut::Shift | 'n',
         MenuFlag::Normal,
         s,
@@ -119,7 +145,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&File/New Cerebro\t",
+        "&File/New Cerebro",
         Shortcut::Ctrl | 'n',
         MenuFlag::Normal,
         s,
@@ -127,7 +153,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&File/Backup to cerebro archive\t",
+        "&File/Backup to cerebro archive",
         Shortcut::None,
         MenuFlag::Normal,
         s,
@@ -135,7 +161,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&File/Import\t",
+        "&File/Import",
         Shortcut::None,
         MenuFlag::Normal,
         s,
@@ -143,7 +169,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&File/Export\t",
+        "&File/Export",
         Shortcut::None,
         MenuFlag::Normal,
         s,
@@ -151,7 +177,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&File/Rename cerebro\t",
+        "&File/Rename cerebro",
         Shortcut::None,
         MenuFlag::Normal,
         s,
@@ -159,7 +185,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&File/Statistics\t",
+        "&File/Statistics",
         Shortcut::None,
         MenuFlag::Normal,
         s,
@@ -167,7 +193,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&File/Utilities/Manage endpoints\t",
+        "&File/Utilities/Manage endpoints",
         Shortcut::None,
         MenuFlag::Normal,
         s,
@@ -175,7 +201,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&File/Utilities/Search and Replace\t",
+        "&File/Utilities/Search and Replace",
         Shortcut::None,
         MenuFlag::Normal,
         s,
@@ -183,7 +209,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&File/Utilities/Data integrity scan\t",
+        "&File/Utilities/Data integrity scan",
         Shortcut::None,
         MenuFlag::Normal,
         s,
@@ -191,7 +217,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&File/Utilities/Add UTF-8 signature to notes\t",
+        "&File/Utilities/Add UTF-8 signature to notes",
         Shortcut::None,
         MenuFlag::Normal,
         s,
@@ -199,7 +225,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&File/Utilities/Show all parents\t",
+        "&File/Utilities/Show all parents",
         Shortcut::None,
         MenuFlag::Normal,
         s,
@@ -207,7 +233,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&File/Utilities/Hide all parents\t",
+        "&File/Utilities/Hide all parents",
         Shortcut::None,
         MenuFlag::Normal,
         s,
@@ -215,7 +241,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&File/Close Tab\t",
+        "&File/Close Tab",
         Shortcut::Ctrl | 'w',
         MenuFlag::Normal,
         s,
@@ -223,7 +249,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&File/Close Window\t",
+        "&File/Close Window",
         Shortcut::Alt | 'w',
         MenuFlag::MenuDivider,
         s,
@@ -231,7 +257,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&File/Quit\t",
+        "&File/Quit",
         Shortcut::Ctrl | 'q',
         MenuFlag::Normal,
         s,
@@ -240,7 +266,7 @@ fn main() {
 
     // Edit menu entries
     menu.add_emit(
-        "&Edit/Undo\t",
+        "&Edit/Undo",
         Shortcut::Ctrl | 'z',
         MenuFlag::Normal,
         s,
@@ -248,7 +274,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&Edit/Redo\t",
+        "&Edit/Redo",
         Shortcut::Ctrl | 'y',
         MenuFlag::MenuDivider,
         s,
@@ -256,7 +282,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&Edit/Cut\t",
+        "&Edit/Cut",
         Shortcut::Ctrl | 'x',
         MenuFlag::Normal,
         s,
@@ -264,7 +290,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&Edit/Copy\t",
+        "&Edit/Copy",
         Shortcut::Ctrl | 'c',
         MenuFlag::Normal,
         s,
@@ -272,7 +298,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&Edit/Copy URL of local thought\t",
+        "&Edit/Copy URL of local thought",
         Shortcut::None,
         MenuFlag::Normal,
         s,
@@ -280,7 +306,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&Edit/Copy URL of web thought\t",
+        "&Edit/Copy URL of web thought",
         Shortcut::None,
         MenuFlag::Normal,
         s,
@@ -288,7 +314,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&Edit/Double thought\t",
+        "&Edit/Double thought",
         Shortcut::None,
         MenuFlag::MenuDivider,
         s,
@@ -296,7 +322,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&Edit/Paste\t",
+        "&Edit/Paste",
         Shortcut::Ctrl | 'v',
         MenuFlag::Normal,
         s,
@@ -304,7 +330,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&Edit/Select all\t",
+        "&Edit/Select all",
         Shortcut::Ctrl | 'a',
         MenuFlag::MenuDivider,
         s,
@@ -357,6 +383,216 @@ fn main() {
         MenuFlag::Normal,
         s,
         Message::CopyScreenShotToClipboard,
+    );
+
+    // View menu entries
+    menu.add_emit(
+        "&View/Default",
+        Shortcut::Ctrl | Shortcut::Shift | '1',
+        MenuFlag::Toggle,
+        s,
+        Message::DefaultView,
+    );
+
+    menu.add_emit(
+        "&View/Outline",
+        Shortcut::Ctrl | Shortcut::Shift | '2',
+        MenuFlag::Toggle,
+        s,
+        Message::OutlineView,
+    );
+
+    menu.add_emit(
+        "&View/Mindmap",
+        Shortcut::Ctrl | Shortcut::Shift | '3',
+        MenuFlag::Toggle,
+        s,
+        Message::MindmapView,
+    );
+
+    menu.add_emit(
+        "&View/Expand all thoughts",
+        Shortcut::Ctrl | '0',
+        MenuFlag::Normal,
+        s,
+        Message::ExpandAllThoughts,
+    );
+
+    menu.add_emit(
+        "&View/Fold all thoughts",
+        Shortcut::Ctrl | '9',
+        MenuFlag::MenuDivider,
+        s,
+        Message::FoldAllThoughts,
+    );
+
+    menu.add_emit(
+        "&View/Zoom into cerebro",
+        Shortcut::Ctrl | '=',
+        MenuFlag::Normal,
+        s,
+        Message::ZoomIntoCerebro,
+    );
+
+    menu.add_emit(
+        "&View/Zoom out of cerebro",
+        Shortcut::Ctrl | '-',
+        MenuFlag::MenuDivider,
+        s,
+        Message::ZoomOutOfCerebro,
+    );
+
+    menu.add_emit(
+        "&View/Open a cerebro archive",
+        Shortcut::None,
+        MenuFlag::MenuDivider,
+        s,
+        Message::OpenCerebroArchive,
+    );
+
+    menu.add_emit(
+        "&View/Report",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::DisplayReport,
+    );
+
+    menu.add_emit(
+        "&View/Timeline",
+        Shortcut::None,
+        MenuFlag::MenuDivider,
+        s,
+        Message::DisplayTimeline,
+    );
+
+    menu.add_emit(
+        "&View/Presentation mode",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::PresentationMode,
+    );
+
+    // Options menu entries
+    menu.add_emit(
+        "&Options/Order thoughts by/Name",
+        Shortcut::None,
+        MenuFlag::Toggle,
+        s,
+        Message::OrderThoughtsByName,
+    );
+
+    menu.add_emit(
+        "&Options/Order thoughts by/Type",
+        Shortcut::None,
+        MenuFlag::Toggle,
+        s,
+        Message::OrderThoughtsByType,
+    );
+
+    menu.add_emit(
+        "&Options/Order thoughts by/Date of modification",
+        Shortcut::None,
+        MenuFlag::Toggle,
+        s,
+        Message::OrderThoughtsByDateOfModification,
+    );
+
+    menu.add_emit(
+        "&Options/Order thoughts by/Date of creation",
+        Shortcut::None,
+        MenuFlag::Toggle,
+        s,
+        Message::OrderThoughtsByDateOfCreation,
+    );
+
+    menu.add_emit(
+        "&Options/Order thoughts by/Date of visit",
+        Shortcut::None,
+        MenuFlag::Toggle,
+        s,
+        Message::OrderThoughtsByDateOfVisit,
+    );
+
+    menu.add_emit(
+        "&Options/Order thoughts by/Date of modification (oldest first)",
+        Shortcut::None,
+        MenuFlag::Toggle,
+        s,
+        Message::OrderThoughtsByDateOfModificationOldestFirst,
+    );
+
+    menu.add_emit(
+        "&Options/Order thoughts by/Date of creation (oldest first)",
+        Shortcut::None,
+        MenuFlag::Toggle,
+        s,
+        Message::OrderThoughtsByDateOfCreationOldestFirst,
+    );
+
+    menu.add_emit(
+        "&Options/Order thoughts by/Date of visit (oldest first)",
+        Shortcut::None,
+        MenuFlag::Toggle,
+        s,
+        Message::OrderThoughtsByDateOfVisitOldestFirst,
+    );
+
+    menu.add_emit(
+        "&Options/Web search",
+        Shortcut::Ctrl | Shortcut::Shift | 'f',
+        MenuFlag::MenuDivider,
+        s,
+        Message::WebSearch,
+    );
+
+    menu.add_emit(
+        "&Options/Show deceased thoughts",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::ShowDeceasedThoughts,
+    );
+
+    menu.add_emit(
+        "&Options/Hide private thoughts",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::HidePrivateThoughts,
+    );
+
+    menu.add_emit(
+        "&Options/Wander",
+        Shortcut::None,
+        MenuFlag::MenuDivider,
+        s,
+        Message::Wander,
+    );
+
+    menu.add_emit(
+        "&Options/Check spelling while typing",
+        Shortcut::None,
+        MenuFlag::MenuDivider,
+        s,
+        Message::CheckSpellingWhileTyping,
+    );
+
+    menu.add_emit(
+        "&Options/Cerebro theme",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::CerebroTheme,
+    );
+
+    menu.add_emit(
+        "&Options/Cerebro defaults",
+        Shortcut::Ctrl | ',',
+        MenuFlag::Normal,
+        s,
+        Message::CerebroDefaults,
     );
 
     // Online menu entries
@@ -459,7 +695,7 @@ fn main() {
 
     // Help menu entries
     menu.add_emit(
-        "&Help/About\t",
+        "&Help/About",
         Shortcut::None,
         MenuFlag::Normal,
         s,
@@ -467,7 +703,7 @@ fn main() {
     );
 
     menu.add_emit(
-        "&Help/Check for updates\t",
+        "&Help/Check for updates",
         Shortcut::None,
         MenuFlag::Normal,
         s,
@@ -545,9 +781,12 @@ fn main() {
             Some(Message::Backup) => println!("Backup"),
             Some(Message::CancelSelection) => println!("CancelSelection"),
             Some(Message::Cerebris) => println!("Cerebris"),
+            Some(Message::CerebroDefaults) => println!("CerebroDefaults"),
             Some(Message::CerebroPermissions) => println!("CerebroPermissions"),
+            Some(Message::CerebroTheme) => println!("CerebroTheme"),
             Some(Message::Changed) => println!("Changed"),
             Some(Message::CheckForUpdate) => println!("CheckForUpdate"),
+            Some(Message::CheckSpellingWhileTyping) => println!("CheckSpellingWhileTyping"),
             Some(Message::Copy) => println!("Copy"),
             Some(Message::CopyScreenShotToClipboard) => println!("CopyScreenShotToClipboard"),
             Some(Message::CopyURLOfLocalThought) => println!("CopyURLOfLocalThought"),
@@ -556,14 +795,21 @@ fn main() {
             Some(Message::CloseWindow) => println!("CloseWindow"),
             Some(Message::Cut) => println!("Cut"),
             Some(Message::DataIntegrityScan) => println!("DataIntegrityScan"),
+            Some(Message::DefaultView) => println!("DefaultView"),
             Some(Message::DisplayAccountInformations) => println!("DisplayAccountInformations"),
+            Some(Message::DisplayReport) => println!("DisplayReport"),
+            Some(Message::DisplayTimeline) => println!("DisplayTimeline"),
             Some(Message::DoubleThought) => println!("DoubleThought"),
             Some(Message::DuplicateTab) => println!("DuplicateTab"),
+            Some(Message::ExpandAllThoughts) => println!("ExpandAllThoughts"),
             Some(Message::Export) => println!("Export"),
+            Some(Message::FoldAllThoughts) => println!("FoldAllThoughts"),
             Some(Message::HideAllParents) => println!("HideAllParents"),
+            Some(Message::HidePrivateThoughts) => println!("HidePrivateThoughts"),
             Some(Message::Import) => println!("Import"),
             Some(Message::JoinAll) => println!("JoinAll"),
             Some(Message::ManageEndPoints) => println!("ManageEndPoints"),
+            Some(Message::MindmapView) => println!("MindmapView"),
             Some(Message::MoveTabToNewWindow) => println!("MoveTabToNewWindow"),
             Some(Message::NewCerebro) => println!("NewCerebro"),
             Some(Message::NewTab) => println!("NewTab"),
@@ -572,9 +818,30 @@ fn main() {
             Some(Message::None) => println!("None"),
             Some(Message::OfflineActivation) => println!("OfflineActivation"),
             Some(Message::Open) => println!("Open"),
+            Some(Message::OpenCerebroArchive) => println!("OpenCerebroArchive"),
             Some(Message::OpenThoughtInWebClient) => println!("OpenThoughtInWebClient"),
             Some(Message::OpenProtocolDirectory) => println!("OpenProtocolDirectory"),
+            Some(Message::OrderThoughtsByDateOfCreation) => {
+                println!("OrderThoughtsByDateOfCreation")
+            }
+            Some(Message::OrderThoughtsByDateOfCreationOldestFirst) => {
+                println!("OrderThoughtsByDateOfCreationOldestFirst")
+            }
+            Some(Message::OrderThoughtsByDateOfModification) => {
+                println!("OrderThoughtsByDateOfModification")
+            }
+            Some(Message::OrderThoughtsByDateOfModificationOldestFirst) => {
+                println!("OrderThoughtsByDateOfModificationOldestFirst")
+            }
+            Some(Message::OrderThoughtsByDateOfVisit) => println!("OrderThoughtsByDateOfVisit"),
+            Some(Message::OrderThoughtsByDateOfVisitOldestFirst) => {
+                println!("OrderThoughtsByDateOfVisitOldestFirst")
+            }
+            Some(Message::OrderThoughtsByName) => println!("OrderThoughtsByName"),
+            Some(Message::OrderThoughtsByType) => println!("OrderThoughtsByType"),
+            Some(Message::OutlineView) => println!("OutlineView"),
             Some(Message::Paste) => println!("Paste"),
+            Some(Message::PresentationMode) => println!("PresentationMode"),
             Some(Message::PreviousCerebro) => println!("PreviousCerebro"),
             Some(Message::Quit) => app.quit(), // TODO: emit autosave message
             Some(Message::RenameCerebro) => println!("RenameCerebro"),
@@ -585,6 +852,7 @@ fn main() {
             Some(Message::SelectPathInBetween) => println!("SelectPathInBetween"),
             Some(Message::SelectRelatedThoughts) => println!("SelectRelatedThoughts"),
             Some(Message::ShowAllParents) => println!("ShowAllParents"),
+            Some(Message::ShowDeceasedThoughts) => println!("ShowDeceasedThoughts"),
             Some(Message::ShowCommonChildren) => println!("ShowCommonChildren"),
             Some(Message::Statistics) => println!("Statistics"),
             Some(Message::SynchronizeCerebro) => println!("SynchronizeCerebro"),
@@ -594,6 +862,10 @@ fn main() {
             Some(Message::UpgradeToPro) => println!("UpgradeToPro"),
             Some(Message::QuickstartCerebro) => println!("QuickstartCerebro"),
             Some(Message::Redo) => println!("Redo"),
+            Some(Message::Wander) => println!("Wander"),
+            Some(Message::WebSearch) => println!("WebSearch"),
+            Some(Message::ZoomIntoCerebro) => println!("ZoomIntoCerebro"),
+            Some(Message::ZoomOutOfCerebro) => println!("ZoomOutOfCerebro"),
             None => (),
         }
     }
