@@ -1,9 +1,3 @@
-// TODO:
-//      1. Layout as TheBrain 11 is
-//      2. Change to horizontal layout dynamically.
-//      3. Fill slowly with function.
-//      4. Release early, release often.
-
 // This is needed to prevent a command shell to open on windows.
 // Uncomment when releasing! TODO: Automate this!
 // #![windows_subsystem = "windows"]
