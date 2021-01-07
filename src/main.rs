@@ -1,6 +1,6 @@
 // This is needed to prevent a command shell to open on windows.
-// Uncomment when releasing! TODO: Automate this!
-// #![windows_subsystem = "windows"]
+// It still opens when in debug mode.
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use fltk::{app::*, dialog::*, menu::*, window::*};
 
