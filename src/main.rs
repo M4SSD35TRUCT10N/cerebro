@@ -2,7 +2,15 @@
 // It still opens when in debug mode.
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use fltk::{app::*, dialog::*, menu::*, window::*};
+use fltk::{app::*, dialog::*, group::*, menu::*, window::*};
+
+// I like to have some initial values as constants since they'll never
+// change over the course of the application running. They also help to
+// reduce memory footprint of the application due to compiler
+// optimizations.
+const INITIAL_WIDTH: i32 = 864;
+const INITIAL_HEIGHT: i32 = 360;
+const INITIAL_MENU_HEIGHT: i32 = 23;
 
 // Message enum for the menu bar and other functionalities.
 // Adding something here, needs to be added in the match tree of
@@ -92,15 +100,24 @@ pub enum Message {
     ZoomOutOfCerebro,
 }
 
-fn main() {
-    // I like to have some initial values as constants since they'll never
-    // change over the course of the application running. They also help to
-    // reduce memory footprint of the application due to compiler
-    // optimizations.
-    const INITIAL_WIDTH: i32 = 864;
-    const INITIAL_HEIGHT: i32 = 360;
-    const INITIAL_MENU_HEIGHT: i32 = 23;
+fn new_tab(mut tab: Tabs) -> Tabs {
+    let new_group = Group::new(
+        0,
+        2 * INITIAL_MENU_HEIGHT,
+        INITIAL_WIDTH,
+        INITIAL_HEIGHT - 2 * INITIAL_MENU_HEIGHT,
+        "Cerebris",
+    );
+    //TODO: Fill with life - display all cerebris of the user (either local
+    //      from a given directory or from the web source).
+    new_group.end();
 
+    tab.add(&new_group);
+
+    tab
+}
+
+fn main() {
     // The app variable is immutable. This is the entry point of the
     // application.
     // Loads with Base scheme of FLTK - will later be changeable via JSON
@@ -124,6 +141,16 @@ fn main() {
 
     // Be macOS friendly from the beginning: start as system menu bar - no effect on windows
     let mut menu = SysMenuBar::new(0, 0, INITIAL_WIDTH, INITIAL_MENU_HEIGHT, "cerebro menu");
+
+    // Create tabs area which will be altered by functions on the fly.
+    let mut tab = Tabs::new(
+        0,
+        INITIAL_MENU_HEIGHT,
+        INITIAL_WIDTH,
+        INITIAL_HEIGHT - 2 * INITIAL_MENU_HEIGHT,
+        "",
+    );
+    tab.end();
 
     // Populating menu items
     // File menu entries
@@ -790,7 +817,14 @@ fn main() {
             Some(Message::CopyScreenShotToClipboard) => println!("CopyScreenShotToClipboard"),
             Some(Message::CopyURLOfLocalThought) => println!("CopyURLOfLocalThought"),
             Some(Message::CopyURLOfWebThought) => println!("CopyURLOfWebThought"),
-            Some(Message::CloseTab) => println!("CloseTab"),
+            Some(Message::CloseTab) => {
+                println!("CloseTab");
+                let rm_group = tab.value();
+                if let Some(active) = rm_group {
+                    tab.remove(&active);
+                    w.redraw();
+                }
+            }
             Some(Message::CloseWindow) => println!("CloseWindow"),
             Some(Message::Cut) => println!("Cut"),
             Some(Message::DataIntegrityScan) => println!("DataIntegrityScan"),
@@ -811,7 +845,11 @@ fn main() {
             Some(Message::MindmapView) => println!("MindmapView"),
             Some(Message::MoveTabToNewWindow) => println!("MoveTabToNewWindow"),
             Some(Message::NewCerebro) => println!("NewCerebro"),
-            Some(Message::NewTab) => println!("NewTab"),
+            Some(Message::NewTab) => {
+                println!("NewTab");
+                tab = new_tab(tab);
+                tab.redraw();
+            }
             Some(Message::NewWindow) => println!("NewWindow"),
             Some(Message::NextCerebro) => println!("NextCerebro"),
             Some(Message::OfflineActivation) => println!("OfflineActivation"),
