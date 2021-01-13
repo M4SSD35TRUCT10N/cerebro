@@ -30,12 +30,18 @@ pub enum Message {
     Changed,
     CheckForUpdate,
     CheckSpellingWhileTyping,
+    ConvertToTagOrType,
     Copy,
     CopyScreenShotToClipboard,
     CopyURLOfLocalThought,
     CopyURLOfWebThought,
     CloseTab,
     CloseWindow,
+    CreateChild,
+    CreateLink,
+    CreateParent,
+    CreateTag,
+    CreateType,
     Cut,
     DataIntegrityScan,
     DefaultView,
@@ -52,6 +58,7 @@ pub enum Message {
     Import,
     JoinAll,
     ManageEndPoints,
+    MarkAsDeceased,
     MindmapView,
     MoveTabToNewWindow,
     NewCerebro,
@@ -77,6 +84,9 @@ pub enum Message {
     PreviousCerebro,
     QuickstartCerebro,
     Quit,
+    RemovePin,
+    RemoveTag,
+    RemoveType,
     RenameCerebro,
     Save,
     SaveAs,
@@ -84,6 +94,9 @@ pub enum Message {
     SelectAll,
     SelectPathInBetween,
     SelectRelatedThoughts,
+    SetAsRoot,
+    SetTag,
+    SetType,
     ShowAllParents,
     ShowCommonChildren,
     ShowDeceasedThoughts,
@@ -94,6 +107,8 @@ pub enum Message {
     Undo,
     UpgradeToPro,
     Redo,
+    ViewHistory,
+    ViewProperties,
     Wander,
     WebSearch,
     ZoomIntoCerebro,
@@ -409,6 +424,127 @@ fn main() {
         MenuFlag::Normal,
         s,
         Message::CopyScreenShotToClipboard,
+    );
+
+    // Core thought menu entries
+    menu.add_emit(
+        "&Core thought/Create child",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::CreateChild,
+    );
+
+    menu.add_emit(
+        "&Core thought/Create parent",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::CreateParent,
+    );
+
+    menu.add_emit(
+        "&Core thought/Create link",
+        Shortcut::None,
+        MenuFlag::MenuDivider,
+        s,
+        Message::CreateLink,
+    );
+
+    menu.add_emit(
+        "&Core thought/Type/Create type",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::CreateType,
+    );
+
+    menu.add_emit(
+        "&Core thought/Type/Remove type",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::RemoveType,
+    );
+
+    menu.add_emit(
+        "&Core thought/Type/Set type",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::SetType,
+    );
+
+    menu.add_emit(
+        "&Core thought/Tag/Create tag",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::CreateTag,
+    );
+
+    menu.add_emit(
+        "&Core thought/Tag/Remove tag",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::RemoveTag,
+    );
+
+    menu.add_emit(
+        "&Core thought/Tag/Set tag",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::SetTag,
+    );
+
+    menu.add_emit(
+        "&Core thought/Mark as deceased",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::MarkAsDeceased,
+    );
+
+    menu.add_emit(
+        "&Core thought/Remove pin",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::RemovePin,
+    );
+
+    menu.add_emit(
+        "&Core thought/Set as root",
+        Shortcut::None,
+        MenuFlag::MenuDivider,
+        s,
+        Message::SetAsRoot,
+    );
+
+    menu.add_emit(
+        "&Core thought/Convert to tag or type",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::ConvertToTagOrType,
+    );
+
+    menu.add_emit(
+        "&Core thought/View history",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::ViewHistory,
+    );
+
+    menu.add_emit(
+        "&Core thought/View properties",
+        Shortcut::None,
+        MenuFlag::Normal,
+        s,
+        Message::ViewProperties,
     );
 
     // View menu entries
@@ -813,10 +949,6 @@ fn main() {
             Some(Message::Changed) => println!("Changed"),
             Some(Message::CheckForUpdate) => println!("CheckForUpdate"),
             Some(Message::CheckSpellingWhileTyping) => println!("CheckSpellingWhileTyping"),
-            Some(Message::Copy) => println!("Copy"),
-            Some(Message::CopyScreenShotToClipboard) => println!("CopyScreenShotToClipboard"),
-            Some(Message::CopyURLOfLocalThought) => println!("CopyURLOfLocalThought"),
-            Some(Message::CopyURLOfWebThought) => println!("CopyURLOfWebThought"),
             Some(Message::CloseTab) => {
                 println!("CloseTab");
                 let rm_group = tab.value();
@@ -826,6 +958,16 @@ fn main() {
                 }
             }
             Some(Message::CloseWindow) => println!("CloseWindow"),
+            Some(Message::ConvertToTagOrType) => println!("ConvertToTagOrType"),
+            Some(Message::Copy) => println!("Copy"),
+            Some(Message::CopyScreenShotToClipboard) => println!("CopyScreenShotToClipboard"),
+            Some(Message::CopyURLOfLocalThought) => println!("CopyURLOfLocalThought"),
+            Some(Message::CopyURLOfWebThought) => println!("CopyURLOfWebThought"),
+            Some(Message::CreateChild) => println!("CreateChild"),
+            Some(Message::CreateLink) => println!("CreateLink"),
+            Some(Message::CreateParent) => println!("CreateParent"),
+            Some(Message::CreateTag) => println!("CreateTag"),
+            Some(Message::CreateType) => println!("CreateType"),
             Some(Message::Cut) => println!("Cut"),
             Some(Message::DataIntegrityScan) => println!("DataIntegrityScan"),
             Some(Message::DefaultView) => println!("DefaultView"),
@@ -842,6 +984,7 @@ fn main() {
             Some(Message::Import) => println!("Import"),
             Some(Message::JoinAll) => println!("JoinAll"),
             Some(Message::ManageEndPoints) => println!("ManageEndPoints"),
+            Some(Message::MarkAsDeceased) => println!("MarkAsDeceased"),
             Some(Message::MindmapView) => println!("MindmapView"),
             Some(Message::MoveTabToNewWindow) => println!("MoveTabToNewWindow"),
             Some(Message::NewCerebro) => println!("NewCerebro"),
@@ -880,6 +1023,9 @@ fn main() {
             Some(Message::PresentationMode) => println!("PresentationMode"),
             Some(Message::PreviousCerebro) => println!("PreviousCerebro"),
             Some(Message::Quit) => app.quit(), // TODO: emit autosave message
+            Some(Message::RemovePin) => println!("RemovePin"),
+            Some(Message::RemoveTag) => println!("RemoveTag"),
+            Some(Message::RemoveType) => println!("RemoveType"),
             Some(Message::RenameCerebro) => println!("RenameCerebro"),
             Some(Message::Save) => println!("Save"),
             Some(Message::SaveAs) => println!("SaveAs"),
@@ -887,6 +1033,9 @@ fn main() {
             Some(Message::SelectAll) => println!("SelectAll"),
             Some(Message::SelectPathInBetween) => println!("SelectPathInBetween"),
             Some(Message::SelectRelatedThoughts) => println!("SelectRelatedThoughts"),
+            Some(Message::SetAsRoot) => println!("SetAsRoot"),
+            Some(Message::SetTag) => println!("SetTag"),
+            Some(Message::SetType) => println!("SetType"),
             Some(Message::ShowAllParents) => println!("ShowAllParents"),
             Some(Message::ShowDeceasedThoughts) => println!("ShowDeceasedThoughts"),
             Some(Message::ShowCommonChildren) => println!("ShowCommonChildren"),
@@ -898,6 +1047,8 @@ fn main() {
             Some(Message::UpgradeToPro) => println!("UpgradeToPro"),
             Some(Message::QuickstartCerebro) => println!("QuickstartCerebro"),
             Some(Message::Redo) => println!("Redo"),
+            Some(Message::ViewHistory) => println!("ViewHistory"),
+            Some(Message::ViewProperties) => println!("ViewProperties"),
             Some(Message::Wander) => println!("Wander"),
             Some(Message::WebSearch) => println!("WebSearch"),
             Some(Message::ZoomIntoCerebro) => println!("ZoomIntoCerebro"),
