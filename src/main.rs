@@ -115,6 +115,23 @@ pub enum Message {
     ZoomOutOfCerebro,
 }
 
+fn init_tab(mut tab: Tabs) -> Tabs {
+    // Check wether there is an initial Tab or not.
+    // If not, create one.
+    let mut i = 0;
+    for t in tab.clone().into_iter() {
+        if t.as_group().is_some() {
+            i += 1;
+        }
+    }
+
+    if i == 0 {
+        tab = new_tab(tab);
+    }
+
+    tab
+}
+
 fn new_tab(mut tab: Tabs) -> Tabs {
     let new_group = Group::new(
         0,
@@ -166,6 +183,8 @@ fn main() {
         "",
     );
     tab.end();
+
+    tab = init_tab(tab);
 
     // Populating menu items
     // File menu entries
@@ -954,6 +973,7 @@ fn main() {
                 let rm_group = tab.value();
                 if let Some(active) = rm_group {
                     tab.remove(&active);
+                    tab = init_tab(tab);
                     w.redraw();
                 }
             }
