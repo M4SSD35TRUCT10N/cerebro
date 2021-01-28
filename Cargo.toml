@@ -1,6 +1,6 @@
 [package]
 name = "cerebro"
-version = "0.1.15"
+version = "0.1.16"
 authors = ["Enrico Lefass <enrico.lefass@mailbox.org>"]
 edition = "2018"
 

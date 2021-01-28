@@ -134,9 +134,9 @@ fn init_tab(mut tab: Tabs) -> Tabs {
 
 fn new_tab(mut tab: Tabs) -> Tabs {
     let new_group = Group::new(
-        0,
+        1,
         2 * INITIAL_MENU_HEIGHT,
-        INITIAL_WIDTH,
+        INITIAL_WIDTH - 2,
         INITIAL_HEIGHT - 2 * INITIAL_MENU_HEIGHT,
         "Cerebris",
     );
@@ -172,13 +172,13 @@ fn main() {
         .with_label("cerebro - a note taking and knowledge management tool");
 
     // Be macOS friendly from the beginning: start as system menu bar - no effect on windows
-    let mut menu = SysMenuBar::new(0, 0, INITIAL_WIDTH, INITIAL_MENU_HEIGHT, "cerebro menu");
+    let mut menu = SysMenuBar::new(1, 0, INITIAL_WIDTH - 2, INITIAL_MENU_HEIGHT, "cerebro menu");
 
     // Create tabs area which will be altered by functions on the fly.
     let mut tab = Tabs::new(
-        0,
+        1,
         INITIAL_MENU_HEIGHT,
-        INITIAL_WIDTH,
+        INITIAL_WIDTH - 2,
         INITIAL_HEIGHT - 2 * INITIAL_MENU_HEIGHT,
         "",
     );
