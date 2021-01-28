@@ -2,7 +2,7 @@
 // It still opens when in debug mode.
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use fltk::{app::*, dialog::*, group::*, menu::*, window::*};
+use fltk::{app::*, button::*, dialog::*, group::*, input::*, menu::*, window::*};
 
 // I like to have some initial values as constants since they'll never
 // change over the course of the application running. They also help to
@@ -69,6 +69,8 @@ pub enum Message {
     Open,
     OpenCerebroArchive,
     OpenProtocolDirectory,
+    OrderCerebrisByName,
+    OrderCerebrisByDateOfModification,
     OpenThoughtInWebClient,
     OrderThoughtsByDateOfCreation,
     OrderThoughtsByDateOfCreationOldestFirst,
@@ -84,6 +86,7 @@ pub enum Message {
     PreviousCerebro,
     QuickstartCerebro,
     Quit,
+    RefreshCerebris,
     RemovePin,
     RemoveTag,
     RemoveType,
@@ -140,8 +143,54 @@ fn new_tab(mut tab: Tabs) -> Tabs {
         INITIAL_HEIGHT - 2 * INITIAL_MENU_HEIGHT,
         "Cerebris",
     );
+
+    let (s, _r) = channel::<Message>();
+
     //TODO: Fill with life - display all cerebris of the user (either local
     //      from a given directory or from the web source).
+    //      Add images to the buttons!
+    let mut hpck_tab_btns = Pack::new(
+        2,
+        2 * INITIAL_MENU_HEIGHT + 4,
+        4 * INITIAL_MENU_HEIGHT + 4,
+        INITIAL_MENU_HEIGHT,
+        "",
+    );
+    let mut btn_new_cerebro = Button::new(0, 0, INITIAL_MENU_HEIGHT, 0, "nc");
+    btn_new_cerebro.set_tooltip("Create a new cerebro");
+    btn_new_cerebro.emit(s, Message::NewCerebro);
+
+    let mut btn_refresh_list = Button::new(0, 0, INITIAL_MENU_HEIGHT, 0, "rl");
+    btn_refresh_list.set_tooltip("Refresh list of cerebris");
+    btn_refresh_list.emit(s, Message::RefreshCerebris);
+
+    let mut btn_sort_by_name = Button::new(0, 0, INITIAL_MENU_HEIGHT, 0, "sn");
+    btn_sort_by_name.set_tooltip("Sort cerebris by name");
+    btn_sort_by_name.emit(s, Message::OrderCerebrisByName);
+
+    let mut btn_sort_by_mod_date = Button::new(0, 0, INITIAL_MENU_HEIGHT, 0, "sd");
+    btn_sort_by_mod_date.set_tooltip("Sort cerebris by modification date");
+    btn_sort_by_mod_date.emit(s, Message::OrderCerebrisByDateOfModification);
+
+    hpck_tab_btns.end();
+    hpck_tab_btns.set_type(PackType::Horizontal);
+
+    let mut hpck_filter = Pack::new(
+        INITIAL_WIDTH - 8 * INITIAL_MENU_HEIGHT - 2,
+        2 * INITIAL_MENU_HEIGHT + 4,
+        8 * INITIAL_MENU_HEIGHT,
+        INITIAL_MENU_HEIGHT,
+        "",
+    );
+
+    let mut filter = Input::new(0, 0, 8 * INITIAL_MENU_HEIGHT, 0, "");
+    filter.set_tooltip("Filter cerebris by name");
+    filter.set_text_color(Color::Light1);
+    filter.set_value("Type name of cerebro here");
+
+    hpck_filter.end();
+    hpck_filter.set_type(PackType::Horizontal);
+
     new_group.end();
 
     tab.add(&new_group);
@@ -152,7 +201,7 @@ fn new_tab(mut tab: Tabs) -> Tabs {
 fn main() {
     // The app variable is immutable. This is the entry point of the
     // application.
-    // Loads with Base scheme of FLTK - will later be changeable via JSON
+    // Loads with Gleam scheme of FLTK - will later be changeable via JSON
     // based config file.
     // Loads all fonts known to the system for convenience later on.
     let app = App::default()
@@ -1020,6 +1069,10 @@ fn main() {
             Some(Message::OpenCerebroArchive) => println!("OpenCerebroArchive"),
             Some(Message::OpenThoughtInWebClient) => println!("OpenThoughtInWebClient"),
             Some(Message::OpenProtocolDirectory) => println!("OpenProtocolDirectory"),
+            Some(Message::OrderCerebrisByDateOfModification) => {
+                println!("OrderCerebrisByDateOfModification")
+            }
+            Some(Message::OrderCerebrisByName) => println!("OrderCerebrisByName"),
             Some(Message::OrderThoughtsByDateOfCreation) => {
                 println!("OrderThoughtsByDateOfCreation")
             }
@@ -1043,6 +1096,7 @@ fn main() {
             Some(Message::PresentationMode) => println!("PresentationMode"),
             Some(Message::PreviousCerebro) => println!("PreviousCerebro"),
             Some(Message::Quit) => app.quit(), // TODO: emit autosave message
+            Some(Message::RefreshCerebris) => println!("RefreshCerebris"),
             Some(Message::RemovePin) => println!("RemovePin"),
             Some(Message::RemoveTag) => println!("RemoveTag"),
             Some(Message::RemoveType) => println!("RemoveType"),
