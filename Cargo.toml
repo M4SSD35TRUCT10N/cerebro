@@ -9,8 +9,8 @@ edition = "2018"
 [dependencies]
 bzip2 = "0.4.*"
 # OpenGL fltk = { version = "0.9.4", features = ["enable-glwindow"] }
-fltk = "^0.13"
-# hvif = "0.1.0" - non-existent
+fltk = "^0.14"
+# hvif = "0.1.0" - non-existent eventually never be used but I let it stay here a while longer
 image = "0.23.*"
 tar = "0.4.*"
 serde = "1.0.*"

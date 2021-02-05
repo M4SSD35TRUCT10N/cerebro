@@ -2,7 +2,7 @@
 // It still opens when in debug mode.
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use fltk::{app::*, button::*, dialog::*, group::*, input::*, menu::*, window::*};
+use fltk::{app::*, button::*, dialog::*, group::*, input::*, menu::*, window::*, *};
 
 // I like to have some initial values as constants since they'll never
 // change over the course of the application running. They also help to
@@ -118,6 +118,42 @@ pub enum Message {
     ZoomOutOfCerebro,
 }
 
+struct MyButton {
+    btn: Button,
+}
+
+impl MyButton {
+    pub fn new(x: i32, y: i32, w: i32, h: i32, label: &str) -> Self {
+        let mut btn = Button::new(x, y, w, h, label);
+        btn.set_frame(FrameType::FlatBox);
+        /*btn.draw2(|b| {
+            draw::set_draw_hex_color(0x464646);
+            draw::set_line_style(draw::LineStyle::JoinRound, 2);
+            draw::draw_line(
+                b.x(),
+                b.y() + b.height() + 5,
+                b.x() + b.width(),
+                b.y() + b.height() + 5,
+            )*
+        });*/
+        MyButton { btn }
+    }
+}
+
+impl std::ops::Deref for MyButton {
+    type Target = Button;
+
+    fn deref(&self) -> &Self::Target {
+        &self.btn
+    }
+}
+
+impl std::ops::DerefMut for MyButton {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.btn
+    }
+}
+
 fn init_tab(mut tab: Tabs) -> Tabs {
     // Check wether there is an initial Tab or not.
     // If not, create one.
@@ -156,7 +192,7 @@ fn new_tab(mut tab: Tabs) -> Tabs {
         INITIAL_MENU_HEIGHT,
         "",
     );
-    let mut btn_new_cerebro = Button::new(0, 0, INITIAL_MENU_HEIGHT, 0, "nc");
+    let mut btn_new_cerebro = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "nc");
     btn_new_cerebro.set_tooltip("Create a new cerebro");
     btn_new_cerebro.emit(s, Message::NewCerebro);
 
