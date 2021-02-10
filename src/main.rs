@@ -2,7 +2,7 @@
 // It still opens when in debug mode.
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use fltk::{app::*, button::*, dialog::*, group::*, input::*, menu::*, window::*, *};
+use fltk::{app::*, button::*, dialog::*, group::*, image::*, input::*, menu::*, window::*, *};
 
 // I like to have some initial values as constants since they'll never
 // change over the course of the application running. They also help to
@@ -125,17 +125,17 @@ struct MyButton {
 impl MyButton {
     pub fn new(x: i32, y: i32, w: i32, h: i32, label: &str) -> Self {
         let mut btn = Button::new(x, y, w, h, label);
-        btn.set_frame(FrameType::FlatBox);
-        /*btn.draw2(|b| {
-            draw::set_draw_hex_color(0x464646);
-            draw::set_line_style(draw::LineStyle::JoinRound, 2);
-            draw::draw_line(
-                b.x(),
-                b.y() + b.height() + 5,
-                b.x() + b.width(),
-                b.y() + b.height() + 5,
-            )*
-        });*/
+        btn.set_frame(FrameType::UpBox);
+        //btn.draw2(|b| {
+        //  draw::set_draw_hex_color(0x464646);
+        //  draw::set_line_style(draw::LineStyle::JoinRound, 2);
+        //  draw::draw_line(
+        //      b.x(),
+        //      b.y() + b.height() + 5,
+        //      b.x() + b.width(),
+        //      b.y() + b.height() + 5,
+        //  )*
+        //});
         MyButton { btn }
     }
 }
@@ -192,19 +192,22 @@ fn new_tab(mut tab: Tabs) -> Tabs {
         INITIAL_MENU_HEIGHT,
         "",
     );
-    let mut btn_new_cerebro = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "nc");
+    let mut btn_new_cerebro = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "");
     btn_new_cerebro.set_tooltip("Create a new cerebro");
     btn_new_cerebro.emit(s, Message::NewCerebro);
+    let mut img = SharedImage::load("assets/material-design-icons/png/content/create/materialicons/48dp/2x/baseline_create_black_48dp.png").unwrap();
+    img.scale(INITIAL_MENU_HEIGHT, INITIAL_MENU_HEIGHT, true, true);
+    btn_new_cerebro.set_image(Some(img));
 
-    let mut btn_refresh_list = Button::new(0, 0, INITIAL_MENU_HEIGHT, 0, "rl");
+    let mut btn_refresh_list = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "rl");
     btn_refresh_list.set_tooltip("Refresh list of cerebris");
     btn_refresh_list.emit(s, Message::RefreshCerebris);
 
-    let mut btn_sort_by_name = Button::new(0, 0, INITIAL_MENU_HEIGHT, 0, "sn");
+    let mut btn_sort_by_name = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "sn");
     btn_sort_by_name.set_tooltip("Sort cerebris by name");
     btn_sort_by_name.emit(s, Message::OrderCerebrisByName);
 
-    let mut btn_sort_by_mod_date = Button::new(0, 0, INITIAL_MENU_HEIGHT, 0, "sd");
+    let mut btn_sort_by_mod_date = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "sd");
     btn_sort_by_mod_date.set_tooltip("Sort cerebris by modification date");
     btn_sort_by_mod_date.emit(s, Message::OrderCerebrisByDateOfModification);
 
