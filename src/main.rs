@@ -13,7 +13,7 @@ use fltk::{
 // optimizations.
 const INITIAL_WIDTH: i32 = 864;
 const INITIAL_HEIGHT: i32 = 360;
-const INITIAL_MENU_HEIGHT: i32 = 23;
+const INITIAL_MENU_HEIGHT: i32 = 22;
 
 // Message enum for the menu bar and other functionalities.
 // Adding something here, needs to be added in the match tree of
@@ -129,6 +129,7 @@ impl MyButton {
     pub fn new(x: i32, y: i32, w: i32, h: i32, label: &'static str) -> Self {
         let mut btn = Button::new(x, y, w, h, label);
         btn.set_frame(FrameType::UpBox);
+        btn.set_label_size(0);
         //btn.draw2(|b| {
         //  draw::set_draw_hex_color(0x464646);
         //  draw::set_line_style(draw::LineStyle::JoinRound, 2);
@@ -198,21 +199,30 @@ fn new_tab(mut tab: Tabs) -> Tabs {
     let mut btn_new_cerebro = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "");
     btn_new_cerebro.set_tooltip("Create a new cerebro");
     btn_new_cerebro.emit(s, Message::NewCerebro);
-    let mut img = PngImage::load("assets/material-design-icons/png/content/create/materialicons/48dp/2x/baseline_create_black_48dp.png").unwrap();
-    img.scale(INITIAL_MENU_HEIGHT, INITIAL_MENU_HEIGHT, true, true);
-    btn_new_cerebro.set_image(Some(img));
+    let mut img_new_cerebro = PngImage::load("assets/material-design-icons/png/file/create_new_folder/materialicons/18dp/2x/baseline_create_new_folder_black_18dp.png").unwrap();
+    img_new_cerebro.scale(INITIAL_MENU_HEIGHT - 2, INITIAL_MENU_HEIGHT - 2, true, true);
+    btn_new_cerebro.set_image(Some(img_new_cerebro));
 
-    let mut btn_refresh_list = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "rl");
+    let mut btn_refresh_list = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "");
     btn_refresh_list.set_tooltip("Refresh list of cerebris");
     btn_refresh_list.emit(s, Message::RefreshCerebris);
+    let mut img_refresh_list = PngImage::load("assets/material-design-icons/png/action/autorenew/materialicons/18dp/2x/baseline_autorenew_black_18dp.png").unwrap();
+    img_refresh_list.scale(INITIAL_MENU_HEIGHT - 2, INITIAL_MENU_HEIGHT - 2, true, true);
+    btn_refresh_list.set_image(Some(img_refresh_list));
 
-    let mut btn_sort_by_name = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "sn");
+    let mut btn_sort_by_name = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "");
     btn_sort_by_name.set_tooltip("Sort cerebris by name");
     btn_sort_by_name.emit(s, Message::OrderCerebrisByName);
+    let mut img_sort_by_name = PngImage::load("assets/material-design-icons/png/action/list/materialicons/18dp/2x/baseline_list_black_18dp.png").unwrap();
+    img_sort_by_name.scale(INITIAL_MENU_HEIGHT, INITIAL_MENU_HEIGHT, true, true);
+    btn_sort_by_name.set_image(Some(img_sort_by_name));
 
-    let mut btn_sort_by_mod_date = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "sd");
+    let mut btn_sort_by_mod_date = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "");
     btn_sort_by_mod_date.set_tooltip("Sort cerebris by modification date");
     btn_sort_by_mod_date.emit(s, Message::OrderCerebrisByDateOfModification);
+    let mut img_sort_by_mod_date = PngImage::load("assets/material-design-icons/png/action/date_range/materialicons/18dp/2x/baseline_date_range_black_18dp.png").unwrap();
+    img_sort_by_mod_date.scale(INITIAL_MENU_HEIGHT, INITIAL_MENU_HEIGHT, true, true);
+    btn_sort_by_mod_date.set_image(Some(img_sort_by_mod_date));
 
     hpck_tab_btns.end();
     hpck_tab_btns.set_type(PackType::Horizontal);
