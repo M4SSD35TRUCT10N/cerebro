@@ -2,7 +2,10 @@
 // It still opens when in debug mode.
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use fltk::{app::*, button::*, dialog::*, group::*, image::*, input::*, menu::*, window::*, *};
+use fltk::{
+    app::*, button::*, dialog::*, enums::*, group::*, image::*, input::*, menu::*, prelude::*,
+    window::*, *,
+};
 
 // I like to have some initial values as constants since they'll never
 // change over the course of the application running. They also help to
@@ -123,7 +126,7 @@ struct MyButton {
 }
 
 impl MyButton {
-    pub fn new(x: i32, y: i32, w: i32, h: i32, label: &str) -> Self {
+    pub fn new(x: i32, y: i32, w: i32, h: i32, label: &'static str) -> Self {
         let mut btn = Button::new(x, y, w, h, label);
         btn.set_frame(FrameType::UpBox);
         //btn.draw2(|b| {
@@ -195,7 +198,7 @@ fn new_tab(mut tab: Tabs) -> Tabs {
     let mut btn_new_cerebro = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "");
     btn_new_cerebro.set_tooltip("Create a new cerebro");
     btn_new_cerebro.emit(s, Message::NewCerebro);
-    let mut img = SharedImage::load("assets/material-design-icons/png/content/create/materialicons/48dp/2x/baseline_create_black_48dp.png").unwrap();
+    let mut img = PngImage::load("assets/material-design-icons/png/content/create/materialicons/48dp/2x/baseline_create_black_48dp.png").unwrap();
     img.scale(INITIAL_MENU_HEIGHT, INITIAL_MENU_HEIGHT, true, true);
     btn_new_cerebro.set_image(Some(img));
 
@@ -1039,6 +1042,11 @@ fn main() {
     w.make_resizable(true);
     w.end();
     w.show();
+
+    // We need some application icon of some sort - subject to change.
+    // TODO: Find or create a fitting icon for that matter.
+    let w_img = PngImage::load("assets/material-design-icons/png/maps/badge/materialicons/48dp/2x/baseline_badge_black_48dp.png").unwrap();
+    w.set_icon(Some(w_img));
 
     while app.wait() {
         match r.recv() {

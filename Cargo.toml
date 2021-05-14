@@ -1,6 +1,6 @@
 [package]
 name = "cerebro"
-version = "0.1.19"
+version = "0.1.20"
 authors = ["Enrico Lefass <enrico.lefass@mailbox.org>"]
 edition = "2018"
 
@@ -9,7 +9,7 @@ edition = "2018"
 [dependencies]
 bzip2 = "0.4.*"
 # OpenGL fltk = { version = "0.9.4", features = ["enable-glwindow"] }
-fltk = "^0.14"
+fltk = "^1"
 # hvif = "0.1.0" - non-existent eventually never be used but I let it stay here a while longer
 image = "0.23.*"
 tar = "0.4.*"
