@@ -3,8 +3,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use fltk::{
-    app::*, button::*, dialog::*, enums::*, group::*, image::*, input::*, menu::*, prelude::*,
-    window::*, *,
+    app::*, button::*, /*dialog::*,*/ enums::*, group::*, image::*, input::*, menu::*, prelude::*,
+    window::*,
 };
 
 // I like to have some initial values as constants since they'll never
