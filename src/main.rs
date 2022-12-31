@@ -199,28 +199,28 @@ fn new_tab(mut tab: Tabs) -> Tabs {
     let mut btn_new_cerebro = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "");
     btn_new_cerebro.set_tooltip("Create a new cerebro");
     btn_new_cerebro.emit(s, Message::NewCerebro);
-    let mut img_new_cerebro = PngImage::load("assets/material-design-icons/png/file/create_new_folder/materialicons/18dp/2x/baseline_create_new_folder_black_18dp.png").unwrap();
+    let mut img_new_cerebro = SvgImage::load("assets/material-design-icons/svg/file/create_new_folder/materialicons/24px.svg").unwrap();
     img_new_cerebro.scale(INITIAL_MENU_HEIGHT - 2, INITIAL_MENU_HEIGHT - 2, true, true);
     btn_new_cerebro.set_image(Some(img_new_cerebro));
 
     let mut btn_refresh_list = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "");
     btn_refresh_list.set_tooltip("Refresh list of cerebris");
     btn_refresh_list.emit(s, Message::RefreshCerebris);
-    let mut img_refresh_list = PngImage::load("assets/material-design-icons/png/action/autorenew/materialicons/18dp/2x/baseline_autorenew_black_18dp.png").unwrap();
+    let mut img_refresh_list = SvgImage::load("assets/material-design-icons/svg/action/autorenew/materialicons/24px.svg").unwrap();
     img_refresh_list.scale(INITIAL_MENU_HEIGHT - 2, INITIAL_MENU_HEIGHT - 2, true, true);
     btn_refresh_list.set_image(Some(img_refresh_list));
 
     let mut btn_sort_by_name = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "");
     btn_sort_by_name.set_tooltip("Sort cerebris by name");
     btn_sort_by_name.emit(s, Message::OrderCerebrisByName);
-    let mut img_sort_by_name = PngImage::load("assets/material-design-icons/png/action/list/materialicons/18dp/2x/baseline_list_black_18dp.png").unwrap();
+    let mut img_sort_by_name = SvgImage::load("assets/material-design-icons/svg/action/list/materialicons/24px.svg").unwrap();
     img_sort_by_name.scale(INITIAL_MENU_HEIGHT, INITIAL_MENU_HEIGHT, true, true);
     btn_sort_by_name.set_image(Some(img_sort_by_name));
 
     let mut btn_sort_by_mod_date = MyButton::new(0, 0, INITIAL_MENU_HEIGHT, 0, "");
     btn_sort_by_mod_date.set_tooltip("Sort cerebris by modification date");
     btn_sort_by_mod_date.emit(s, Message::OrderCerebrisByDateOfModification);
-    let mut img_sort_by_mod_date = PngImage::load("assets/material-design-icons/png/action/date_range/materialicons/18dp/2x/baseline_date_range_black_18dp.png").unwrap();
+    let mut img_sort_by_mod_date = SvgImage::load("assets/material-design-icons/svg/action/date_range/materialicons/24px.svg").unwrap();
     img_sort_by_mod_date.scale(INITIAL_MENU_HEIGHT, INITIAL_MENU_HEIGHT, true, true);
     btn_sort_by_mod_date.set_image(Some(img_sort_by_mod_date));
 
@@ -1055,7 +1055,7 @@ fn main() {
 
     // We need some application icon of some sort - subject to change.
     // TODO: Find or create a fitting icon for that matter.
-    let w_img = PngImage::load("assets/material-design-icons/png/maps/badge/materialicons/48dp/2x/baseline_badge_black_48dp.png").unwrap();
+    let w_img = SvgImage::load("assets/material-design-icons/svg/maps/badge/materialicons/24px.svg").unwrap();
     w.set_icon(Some(w_img));
 
     while app.wait() {
