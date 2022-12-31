@@ -1,6 +1,6 @@
 [package]
 name = "cerebro"
-version = "0.1.25"
+version = "0.1.26"
 authors = ["Enrico Lefass <enrico.lefass@mailbox.org>"]
 edition = "2018"
 
@@ -12,7 +12,7 @@ bzip2 = "0.4.*"
 # fltk = "^1"
 fltk = { version = "^1", features = ["fltk-bundled"] }
 # hvif = "0.1.0" - non-existent eventually never be used but I let it stay here a while longer
-image = "0.23.*"
+image = "0.24.*"
 open = "3"
 serde = "^1"
 tar = "0.4.*"
