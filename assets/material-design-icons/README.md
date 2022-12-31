@@ -1,4 +1,4 @@
-# Modified by Enrico Lefass with only the following directories: FONT, SVG (renamed SRC folder) and PNG)!
+# Modified by Enrico Lefass with only the following directories: FONT, SVG (renamed SRC folder)!
 
 ## Material design icons
 
