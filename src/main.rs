@@ -2,6 +2,8 @@
 // It still opens when in debug mode.
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use std::io::Error;
+
 use fltk::{
     app::*, button::*, /*dialog::*,*/ enums::*, group::*, image::*, input::*, menu::*,
     prelude::*, window::*,
@@ -261,8 +263,9 @@ fn new_tab(mut tab: Tabs) -> Tabs {
     tab
 }
 
-fn save_cerebro() -> Result<()> {
-    println!("Save");
+fn save_cerebro() -> Result<(), Error> {
+    // TODO: Implement feature
+    println!("NOT IMPLEMENTED YET");
 
     Ok(())
 }
