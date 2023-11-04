@@ -1,6 +1,6 @@
 [package]
 name = "cerebro"
-version = "0.1.26"
+version = "0.1.27"
 authors = ["Enrico Lefass <enrico.lefass@mailbox.org>"]
 edition = "2018"
 
@@ -14,7 +14,8 @@ fltk = { version = "^1", features = ["fltk-bundled"] }
 # hvif = "0.1.0" - non-existent eventually never be used but I let it stay here a while longer
 image = "0.24.*"
 open = "3"
-serde = "^1"
+serde = { version = "^1", features = ["derive"] }
+serde_json = "^1"
 tar = "0.4.*"
 
 [profile.release]
