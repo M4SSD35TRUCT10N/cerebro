@@ -261,6 +261,12 @@ fn new_tab(mut tab: Tabs) -> Tabs {
     tab
 }
 
+fn save_cerebro() -> Result<()> {
+    println!("Save");
+
+    Ok(())
+}
+
 fn main() {
     // The app variable is immutable. This is the entry point of the
     // application.
@@ -357,8 +363,24 @@ fn main() {
     );
 
     menu.add_emit(
+        "&File/Save",
+        Shortcut::Ctrl | 's',
+        MenuFlag::Normal,
+        s,
+        Message::Save,
+    );
+
+    menu.add_emit(
+        "&File/Save as",
+        Shortcut::Ctrl | Shortcut::Shift | 's',
+        MenuFlag::Normal,
+        s,
+        Message::SaveAs,
+    );
+
+    menu.add_emit(
         "&File/Statistics",
-        Shortcut::None,
+        Shortcut::Ctrl | Shortcut::Alt | 's',
         MenuFlag::Normal,
         s,
         Message::Statistics,
@@ -1165,13 +1187,30 @@ fn main() {
             Some(Message::Paste) => println!("Paste"),
             Some(Message::PresentationMode) => println!("PresentationMode"),
             Some(Message::PreviousCerebro) => println!("PreviousCerebro"),
-            Some(Message::Quit) => app.quit(), // TODO: emit autosave message
+            Some(Message::Quit) => {
+                println!("Quit");
+                match save_cerebro() {
+                    Ok(()) => println!("Saved cerebro '{}'.", "CONSTANT_NAME_CEREBRO"),
+                    Err(err) => eprintln!(
+                        "An error occurred when saving '{}': {}",
+                        "CONSTANT_NAME_CEREBRO", err
+                    ),
+                }
+
+                app.quit()
+            }
             Some(Message::RefreshCerebris) => println!("RefreshCerebris"),
             Some(Message::RemovePin) => println!("RemovePin"),
             Some(Message::RemoveTag) => println!("RemoveTag"),
             Some(Message::RemoveType) => println!("RemoveType"),
             Some(Message::RenameCerebro) => println!("RenameCerebro"),
-            Some(Message::Save) => println!("Save"),
+            Some(Message::Save) => match save_cerebro() {
+                Ok(()) => println!("Saved cerebro '{}'.", "CONSTANT_NAME_CEREBRO"),
+                Err(err) => eprintln!(
+                    "An error occurred when saving '{}': {}",
+                    "CONSTANT_NAME_CEREBRO", err
+                ),
+            },
             Some(Message::SaveAs) => println!("SaveAs"),
             Some(Message::SearchReplace) => println!("SearchReplace"),
             Some(Message::SelectAll) => println!("SelectAll"),
